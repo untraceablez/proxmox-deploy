@@ -1,19 +1,21 @@
 ---
 - name: Install openvswitch-switch package
+  when: sdn is defined and sdn !== false
   apt:
     name: openvswitch-switch
     state: present
     update_cache: yes
     cache_valid_time: 3600
   tags:
-    - pmx-nodes
+    - networking
 
-- name: Copy network configuration template
+- name: Copy network configuration template based on sdn value
   template:
-    src: interfaces.j2
+    src: "{{ 'roles/networking/templates/bridges-only/linux-bridges.j2' if sdn == 'linux-bridges' else 'roles/networking/templates/bonds-bridges/ovs-bonds.j2' }}"
     dest: /etc/network/interfaces
+  when: sdn is defined and sdn in ['linux-bridges', 'ovs-bonds']
   tags:
-    - pmx-nodes
+    - networking
 
 - name: Reload networking service
   service:
@@ -22,4 +24,4 @@
   notify:
     - Restart network interfaces
   tags:
-    - pmx-nodes
+    - networking
