@@ -1,0 +1,31 @@
+# roles/pmx-nodes/tasks/repos.yml
+
+- name: Set PBS Enterprise Sources
+  when: enterprise is defined and enterprise == true
+  template:
+    src: pve-enterprise.sources.j2
+    dest: /etc/apt/sources.list.d/pve-enterprise.sources
+  tags:
+    - repositories
+
+- name: Set Proxmox Sources
+  when: enterprise is defined and enterprise == false
+  template:
+    src: proxmox.sources.j2
+    dest: /etc/apt/sources.list.d/proxmox.sources
+  tags:
+    - repositories
+
+- name: Set Debian Sources
+  template:
+    src: debian.sources.j2
+    dest: /etc/apt/sources.list.d/debian.sources
+  tags:
+    - repositories
+
+- name: Update APT Cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600  # Cache for 1 hour
+  tags:
+    - repositories

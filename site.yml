@@ -1,9 +1,8 @@
 ---
-- name: Base configuration for all nodes.
+- name: Base configuration for all hosts.
   hosts: all
   become: yes
   roles:
     - repositories
-    - base
     - ssh
     - networking
