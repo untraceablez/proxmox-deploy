@@ -1,0 +1,33 @@
+---
+
+# Install SSH Keys for root user
+
+- name: Ensure .ssh directory exists
+  ansible.builtin.file:
+    path: "/root/.ssh"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0700"
+  tags:
+  - ssh
+
+- name: Install the public key in authorized_keys
+  ansible.posix.authorized_key:
+    user: "root"
+    key: "{{ lookup('file', 'files/ssh/' + root-ssh-keyname + '.pub') }}"
+    state: present
+    path: "/root/.ssh/authorized_keys"
+  tags:
+  - ssh
+
+- name: Copy the encrypted private key
+  ansible.builtin.copy:
+    src: "files/ssh/{{ root-ssh-keyname }}"
+    dest: "/root/.ssh/{{ root-ssh-keyname }}"
+    owner: "root"
+    group: "root"
+    mode: "0600"
+  tags:
+  - ssh
+
