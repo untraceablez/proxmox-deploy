@@ -1,2 +1,36 @@
----
-# tasks file for repositories
+# roles/pmx-nodes/tasks/repos.yml
+
+- name: Set PVE Enterprise Sources
+  template:
+    src: pve-enterprise.sources.j2
+    dest: /etc/apt/sources.list.d/pve-enterprise.sources
+  tags:
+    - pmx-nodes
+
+- name: Set Proxmox Sources
+  template:
+    src: proxmox.sources.j2
+    dest: /etc/apt/sources.list.d/proxmox.sources
+  tags:
+    - pmx-nodes
+
+- name: Set Ceph Sources
+  template:
+    src: ceph.sources.j2
+    dest: /etc/apt/sources.list.d/ceph.sources
+  tags:
+    - pmx-nodes
+
+- name: Set Debian Sources
+  template:
+    src: debian.sources.j2
+    dest: /etc/apt/sources.list.d/debian.sources
+  tags:
+    - pmx-nodes
+
+- name: Update APT Cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600  # Cache for 1 hour
+  tags:
+    - pmx-nodes
