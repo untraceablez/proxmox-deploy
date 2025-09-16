@@ -165,10 +165,10 @@ proxmox-deploy/
 `ceph`: This role configures ceph on the cluster. Please note, if you have not configured the cluster yet, this role will only install the ceph packages.   
 `cloud-init`: This role configures scripts for cloud-init and downloads your specified cloud-init image for Ubuntu.  
 `cluster`: This role initiates the Proxmox cluster and configures the cluster network, migration network, etc.   
-`networking`: This role will configure networking on your Proxmox nodes and ensure that all nodes have equivalent *virtual* interfaces. You will need to specify physical to virtual dependencies within the host_vars of each node, *especially* for heterogeneous deployments.
-`repositories`: This role configures active repositories on the nodes, disabling the enterprise repos if they're not required, and adding the no-subscription ones in their place.
-`sdn`: This role installs the `openvswitch` packages and configures sdn configs on your nodes. It will run the networking role if not already run against the hosts.  
-`ssh`: This role configures additional SSH keys beyond Ansible, and hardens SSH configurations.
+`networking`: This role will configure networking on your Proxmox nodes and ensure that all nodes have equivalent *virtual* interfaces. You will need to specify physical to virtual dependencies within the host_vars of each node, *especially* for heterogeneous deployments.  
+`repositories`: This role configures active repositories on the nodes, disabling the enterprise repos if they're not required, and adding the no-subscription ones in their place.  
+`sdn`: This role installs the `openvswitch` packages and configures sdn configs on your nodes. It will run the networking role if not already run against the hosts.    
+`ssh`: This role configures additional SSH keys beyond Ansible, and hardens SSH configurations.  
 `terraform`: This role configures Terraform on the nodes, allowing you to manage infrastructure as code. It will run the `cloud-init` role with defaults if it has not been run or configured yet. 
 
 ## Future Plans
