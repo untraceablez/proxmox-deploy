@@ -1,0 +1,18 @@
+node-name: plant.local
+cluster_leader: no
+
+primary-vlan-ip: 10.0.0.194
+primary-vlan-mask: /24
+primary-vlan-gateway: 10.0.0.1
+
+cluster-vlan-ip: 10.0.7.194
+cluster-vlan-mask: /24
+cluster-vlan-gateway: 10.0.7.1
+
+ceph-vlan-ip: 10.0.8.194
+ceph-vlan-mask: /24
+ceph-vlan-gateway: 10.0.8.1
+
+migration-vlan-ip: 192.168.4.194
+migration-vlan-mask: /24
+migration-vlan-gateway: 192.168.4.1

@@ -1,0 +1,20 @@
+---
+node-name: pve-test-02.local
+hostname: pve-test-02.local
+cluster_leader: no
+vlan_01_interface: enp1s0
+vlan_01_ip: 10.0.0.172
+vlan_01_mask: "24"
+vlan_01_gateway: 10.0.0.1
+vlan_02_interface: enp3s0
+vlan_02_ip: 10.0.7.172
+vlan_02_mask: "24"
+vlan_02_gateway: 10.0.7.1
+vlan_03_interface: enp5s0
+vlan_03_ip: 10.0.8.172
+vlan_03_mask: "24"
+vlan_03_gateway: 10.0.8.1
+vlan_04_interface: enp6s0
+vlan_04_ip: 192.168.4.172
+vlan_04_mask: "24"
+vlan_04_gateway: 192.168.4.1
