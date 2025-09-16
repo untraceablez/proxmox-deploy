@@ -4,3 +4,6 @@ vault.yml
 /keys
 /tmp
 .vaultpass
+host_vars/cave.yml
+host_vars/mine.yml
+host_vars/plant.yml

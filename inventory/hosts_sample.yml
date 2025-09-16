@@ -1,0 +1,9 @@
+---
+all:
+  hosts:
+    pve-test-01:
+      ansible_host: 10.0.0.171
+    pve-test-02:
+      ansible_host: 10.0.0.172
+    pve-test-03:
+      ansible_host: 10.0.0.173
