@@ -5,10 +5,11 @@ Suites: {{ ansible_distribution_release | lower }}
 Components: enterprise
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 Enabled: false
-{% endif %}
-
+{% else %}
 Types: deb
 URIs: http://download.proxmox.com/debian/ceph-squid
 Suites: {{ ansible_distribution_release | lower }}
 Components: no-subscription
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+{% endif %}
+
