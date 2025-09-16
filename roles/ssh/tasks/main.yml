@@ -18,7 +18,7 @@
 - name: Install the public key in authorized_keys
   ansible.posix.authorized_key:
     user: "root"
-    key: "{{ lookup('file', 'files/ssh/' + pve_ssh_keyname + '.pub') }}"
+    key: "{{ lookup('file', 'files/' + pve_ssh_keyname + '.pub') }}"
     state: present
     path: "/root/.ssh/authorized_keys"
   tags:
@@ -26,7 +26,7 @@
 
 - name: Copy the encrypted private key
   ansible.builtin.copy:
-    src: "files/ssh/{{ pve_ssh_keyname }}"
+    src: "files/{{ pve_ssh_keyname }}"
     dest: "/root/.ssh/{{ pve_ssh_keyname }}"
     owner: "root"
     group: "root"

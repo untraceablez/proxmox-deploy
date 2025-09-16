@@ -7,3 +7,4 @@ vault.yml
 host_vars/cave.yml
 host_vars/mine.yml
 host_vars/plant.yml
+roles/ssh/files/*

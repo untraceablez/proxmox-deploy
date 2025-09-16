@@ -1,22 +1,39 @@
-Role Name
+`ssh`
 =========
 
-A brief description of the role goes here.
+This role configures SSH on your Proxmox nodes.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+You will need Ansible Vault setup already. 
+
+You will need your SSH keys pregenerated and encrypted by Ansible Vault. Place the **encrypted** files in `roles/ssh/files`. You will also need to encrypt the passphrase as a variable in your group_vars or host_vars. You can do so using the commands below: 
+
+```bash
+ansible-vault encrypt_string --name 'ssh_keyname' 'my-ssh-keyname'
+```
+You should get a result something like this:
+
+```yaml
+ssh_keyname: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          31613739643338363131653237346634346434643934653836323736373062386630396562646237
+          6633313566643065343238323930663438373335666131610a386630666561613432613239346235
+          66373938646334623063373633623136373661383137643466323832656535306331346439646666
+          3561303632336630360a333435626639326465373136306363613730636365643136313837623034
+          6632
+```
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The aforementioned `ssh_keyname` to describe the name of your ssh key. 
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No dependencies.
 
 Example Playbook
 ----------------
@@ -25,7 +42,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - ssh
 
 
 License
