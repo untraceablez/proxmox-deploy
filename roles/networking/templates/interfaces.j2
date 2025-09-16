@@ -1,36 +1,23 @@
 auto lo
 iface lo inet loopback
 
-iface {{ vlan_01_interface }} inet manual
-iface {{ vlan_02_interface }} inet manual
-iface {{ vlan_03_interface }} inet manual
-iface {{ vlan_04_interface }} inet manual
+iface eth0 inet manual
+iface eth1 inet manual
+iface eth2 inet manual
+iface eth3 inet manual
 
-auto vmbr0
-iface vmbr0 inet static
-        address  {{ vlan_01_ip }}/{{ vlan_01_mask }}
-        gateway  {{ vlan_01_gateway }}
-        bridge-ports {{ vlan_01_interface }}
+{% for bridge in bridges %}
+auto {{ bridge.name }}
+iface {{ bridge.name }} inet static
+    address  {{ bridge.ip }}/{{ bridge.mask }}
+    gateway  {{ bridge.gateway }}
+    {% if bridge.type == 'linux' %}
+    bridge-ports {{ bridge.interface }}
         bridge-stp off
         bridge-fd 0
+    {% elif bridge.type == 'ovs' %}
+    ovs_type Open_vSwitch
+    ovs_bridge {{ bridge.interface }}
+    {% endif %}
+{% endfor %}
 
-auto vmbr1
-iface vmbr1 inet static
-        address  {{ vlan_02_ip }}/{{ vlan_02_mask }}
-        bridge-ports {{ vlan_02_interface }}
-        bridge-stp off
-        bridge-fd 0
-
-auto vmbr2
-iface vmbr2 inet static
-        address  {{ vlan_03_ip }}/{{ vlan_03_mask }}
-        bridge-ports {{ vlan_03_interface }}
-        bridge-stp off
-        bridge-fd 0
-
-auto vmbr3
-iface vmbr3 inet static
-        address  {{ vlan_04_ip }}/{{ vlan_04_mask }}
-        bridge-ports {{ vlan_04_interface }}
-        bridge-stp off
-        bridge-fd 0
