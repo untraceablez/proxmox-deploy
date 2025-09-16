@@ -1,12 +1,9 @@
 ---
-# - name: Configure all servers
-#  hosts: all
-#  become: yes
-#  roles:
-#    - base
-
-- name: Configure proxmox nodes
-  hosts: pmx-nodes
+- name: Base configuration for all nodes.
+  hosts: all
   become: yes
   roles:
-    - pmx-nodes
+    - repositories
+    - base
+    - ssh
+    - networking
