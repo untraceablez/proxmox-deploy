@@ -11,6 +11,11 @@ Requirements
 Role Variables
 --------------
 
+`net_type`: This variable determines which template is used for `etc/network/interfaces`.
+  * If `linux-bonds` is defined, the configuration is setup to use Linux bonds to create the virtual bridges.
+  * If `ovs-bonds` is defined, the configuration is setup to use OVS bonds to create the virtual bridges.
+  * If `linux-bridges` is defined, the configuration is setup to map physical interfaces directly to bridges.
+  * If `ovs-bridges` is defined, the configuration is setup to map physical interfaces directly to bridges.
 
 Dependencies
 ------------
