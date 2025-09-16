@@ -1,3 +1,6 @@
 ansible.cfg
 inventory/hosts.yml
 vault.yml
+/keys
+/tmp
+.vaultpass
