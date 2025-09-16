@@ -1,0 +1,4 @@
+proxmoxer
+argcomplete
+ansible-dev-tools
+ansible-lint
