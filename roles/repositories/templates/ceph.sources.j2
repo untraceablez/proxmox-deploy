@@ -1,9 +1,11 @@
+{% if enterprise %}
 Types: deb
 URIs: https://enterprise.proxmox.com/debian/ceph-squid
 Suites: {{ ansible_distribution_release | lower }}
 Components: enterprise
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 Enabled: false
+{% endif %}
 
 Types: deb
 URIs: http://download.proxmox.com/debian/ceph-squid

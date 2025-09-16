@@ -18,3 +18,4 @@ vlan_04_interface: enp6s0
 vlan_04_ip: 192.168.4.173
 vlan_04_mask: "24"
 vlan_04_gateway: 192.168.4.1
+enterprise: false

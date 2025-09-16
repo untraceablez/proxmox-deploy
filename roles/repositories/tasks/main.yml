@@ -1,13 +1,7 @@
 # roles/pmx-nodes/tasks/repos.yml
 
-- name: Set /etc/apt/sources.list
-  template:
-    src: sources.list.j2
-    dest: /etc/apt/sources.list
-  tags:
-    - repositories
-
 - name: Set PVE Enterprise Sources
+  when: enterprise is defined and enterprise == true
   template:
     src: pve-enterprise.sources.j2
     dest: /etc/apt/sources.list.d/pve-enterprise.sources
