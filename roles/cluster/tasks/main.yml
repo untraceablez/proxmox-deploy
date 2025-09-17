@@ -1,25 +1,20 @@
 ---
 - name: Ensure API user exists
-  community.general.proxmox:
+  community.proxmox.proxmox_user_info:
     api_host: "{{ pve_cluster_leader_node }}"
     api_user: "{{ api_user }}"
     api_password: "{{ api_password }}"
-    hostname: "{{ pve_cluster_leader_node }}"
-    user: "root"
-    password: "{{ admin_password }}"
-    state: present
   run_once: true
   tags:
     - pve
     - cluster
 
 - name: Ensure API user has the necessary permissions
-  community.general.proxmox:
+  community.proxmox.proxmox_user_info:
     api_host: "{{ pve_cluster_leader_node }}"
     api_user: "{{ api_user }}"
     api_password: "{{ api_password }}"
-    hostname: "{{ pve_cluster_leader_node }}"
-    user: "{{ api_user }}"
+    username: "{{ api_user }}"
     roleid: "PVEAdmin"
     state: present
   run_once: true
@@ -28,7 +23,7 @@
     - cluster
 
 - name: Debug api_host for leader node
-  debug:
+  ansible.builtin.debug:
     msg: "Leader Node API Host: {{ pve_cluster_leader_node }}"
   run_once: true
   tags:
@@ -36,7 +31,7 @@
     - cluster
 
 - name: Debug api_user and api_password
-  debug:
+  ansible.builtin.debug:
     msg: "API User: {{ api_user }}, API Password: {{ api_password }}"
   run_once: true
   tags:
@@ -45,13 +40,13 @@
 
 
 - name: Check for existing Proxmox cluster
-  community.general.proxmox:
+  community.proxmox.proxmox_cluster:
     api_host: "{{ pve_cluster_leader_node }}"
     api_user: "{{ api_user }}"
     api_password: "{{ api_password }}"
     node: "{{ pve_cluster_leader_node }}"
     hostname: "{{ hostname }}"
-  ignore_errors: yes
+  ignore_errors: true
   register: pve_cluster_status
   run_once: true
   tags:
@@ -60,7 +55,7 @@
 
 
 - name: Skip if Proxmox cluster already exists
-  meta: end_play
+  ansible.builtin.meta: end_play
   when: pve_cluster_status is succeeded
   tags:
     - pve
@@ -68,12 +63,13 @@
 
 
 - name: Create Proxmox cluster on the leader node
-  community.general.proxmox:
+  community.proxmox.proxmox_cluster:
     api_host: "{{ pve_cluster_leader_node }}"
     api_user: "{{ api_user }}"
     api_password: "{{ api_password }}"
     hostname: "{{ hostname }}"
     cluster_name: "{{ pve_cluster_name | default('pve-cluster') }}"
+    node: "{{ node_name }}"
     state: present
   tags:
     - pve
@@ -81,7 +77,7 @@
 
 
 - name: Get cluster join information from the leader node
-  community.general.proxmox:
+  community.proxmox.proxmox_cluster_join_info:
     api_host: "{{ pve_cluster_leader_node }}"
     api_user: "{{ api_user }}"
     api_password: "{{ api_password }}"
@@ -94,7 +90,7 @@
 
 
 - name: Add follower nodes to the cluster
-  community.general.proxmox:
+  community.proxmox.proxmox_cluster:
     api_host: "{{ pve_cluster_leader_node }}"
     fingerprint: "{{ pve_cluster_join_info.fingerprint }}"
     node: "{{ inventory_hostname }}"
@@ -103,4 +99,3 @@
   tags:
     - pve
     - cluster
-

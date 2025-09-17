@@ -1,4 +1,9 @@
+openssh_wrapper
+paramiko
+requests
+requests_toolbelt
 proxmoxer
 argcomplete
+ansible
 ansible-dev-tools
 ansible-lint

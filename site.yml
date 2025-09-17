@@ -1,7 +1,7 @@
 ---
 - name: Base configuration for all hosts.
   hosts: all
-  become: yes
+  become: true
   roles:
     - networking
     - repositories
@@ -9,9 +9,6 @@
 
 - name: Networking configuration for PVE hosts.
   hosts: pve
-  become: yes
+  become: true
   roles:
     - cluster
-
-
-

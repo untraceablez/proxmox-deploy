@@ -1,5 +1,5 @@
 ---
-node-name: pve-test-03.local
+node_name: pve-test-03
 vlan_01_interface: enp1s0
 vlan_01_ip: 10.0.0.173
 vlan_01_mask: "24"

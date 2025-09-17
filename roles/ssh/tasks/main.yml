@@ -7,13 +7,13 @@
     group: "root"
     mode: "0700"
   tags:
-  - ssh
+    - ssh
 
 - name: Debug pve_ssh_keyname variable
   ansible.builtin.debug:
     var: pve_ssh_keyname
   tags:
-  - ssh
+    - ssh
 
 - name: Install the public key in authorized_keys
   ansible.posix.authorized_key:
@@ -22,7 +22,7 @@
     state: present
     path: "/root/.ssh/authorized_keys"
   tags:
-  - ssh
+    - ssh
 
 - name: Copy the encrypted private key
   ansible.builtin.copy:
@@ -32,4 +32,4 @@
     group: "root"
     mode: "0600"
   tags:
-  - ssh
+    - ssh
