@@ -1,10 +1,35 @@
 ---
-# tasks file for cluster
-# cluster.yml
----
+- name: Ensure API user exists
+  community.general.proxmox:
+    api_host: "{{ pve_cluster_leader_node }}"
+    api_user: "{{ api_user }}"
+    api_password: "{{ api_password }}"
+    hostname: "{{ pve_cluster_leader_node }}"
+    user: "root"
+    password: "{{ admin_password }}"
+    state: present
+  run_once: true
+  tags:
+    - pve
+    - cluster
+
+- name: Ensure API user has the necessary permissions
+  community.general.proxmox:
+    api_host: "{{ pve_cluster_leader_node }}"
+    api_user: "{{ api_user }}"
+    api_password: "{{ api_password }}"
+    hostname: "{{ pve_cluster_leader_node }}"
+    user: "{{ api_user }}"
+    roleid: "PVEAdmin"
+    state: present
+  run_once: true
+  tags:
+    - pve
+    - cluster
+
 - name: Debug api_host for leader node
   debug:
-    msg: "Leader Node API Host: {{ cluster_leader }}"
+    msg: "Leader Node API Host: {{ pve_cluster_leader_node }}"
   run_once: true
   tags:
     - pve
@@ -78,3 +103,4 @@
   tags:
     - pve
     - cluster
+
