@@ -4,10 +4,10 @@
 ---
 - name: Debug api_host for leader node
   debug:
-    msg: "Leader Node API Host: {{ pve_cluster_leader_node }}"
+    msg: "Leader Node API Host: {{ cluster_leader }}"
   run_once: true
   tags:
-    - pmx-nodes
+    - pve
     - cluster
 
 - name: Debug api_user and api_password
@@ -15,7 +15,7 @@
     msg: "API User: {{ api_user }}, API Password: {{ api_password }}"
   run_once: true
   tags:
-    - pmx-nodes
+    - pve
     - cluster
 
 
@@ -30,7 +30,7 @@
   register: pve_cluster_status
   run_once: true
   tags:
-    - pmx-nodes
+    - pve
     - cluster
 
 
@@ -38,7 +38,7 @@
   meta: end_play
   when: pve_cluster_status is succeeded
   tags:
-    - pmx-nodes
+    - pve
     - cluster
 
 
@@ -51,7 +51,7 @@
     cluster_name: "{{ pve_cluster_name | default('pve-cluster') }}"
     state: present
   tags:
-    - pmx-nodes
+    - pve
     - cluster
 
 
@@ -64,7 +64,7 @@
   delegate_to: "{{ pve_cluster_leader_node }}"
   run_once: true
   tags:
-    - pmx-nodes
+    - pve
     - cluster
 
 
@@ -76,5 +76,5 @@
     state: present
   when: inventory_hostname != pve_cluster_leader_node
   tags:
-    - pmx-nodes
+    - pve
     - cluster

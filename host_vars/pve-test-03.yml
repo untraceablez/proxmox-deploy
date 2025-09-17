@@ -21,4 +21,3 @@ vlan_04_gateway: 192.168.4.1
 enterprise: false
 sdn: false
 net_type: linux-bridges
-ceph: true

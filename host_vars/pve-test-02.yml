@@ -18,7 +18,5 @@ vlan_04_interface: enp6s0
 vlan_04_ip: 192.168.4.172
 vlan_04_mask: "24"
 vlan_04_gateway: 192.168.4.1
-enterprise: false
 sdn: false
 net_type: linux-bridges
-ceph: true

@@ -1,0 +1,5 @@
+---
+ceph-enabled: no
+pve_ssh_keyname: cluster
+pve_cluster_name: pve-test-cluster
+pve_cluster_leader_node: pve-test-01
