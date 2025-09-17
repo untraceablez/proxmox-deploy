@@ -11,8 +11,8 @@
 - name: Set Proxmox Sources
   when: enterprise is defined and enterprise == false
   template:
-    src: proxmox.sources.j2
-    dest: /etc/apt/sources.list.d/proxmox.sources
+    src: pve-no-sub.sources.j2
+    dest: /etc/apt/sources.list.d/pve-no-sub.sources
   tags:
     - repositories
 
