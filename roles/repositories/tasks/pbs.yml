@@ -3,23 +3,16 @@
 - name: Set PBS Enterprise Sources
   when: enterprise is defined and enterprise == true
   template:
-    src: PBS-enterprise.sources.j2
-    dest: /etc/apt/sources.list.d/PBS-enterprise.sources
+    src: pbs-enterprise.sources.j2
+    dest: /etc/apt/sources.list.d/pbs-enterprise.sources
   tags:
     - repositories
 
 - name: Set Proxmox Sources
   when: enterprise is defined and enterprise == false
   template:
-    src: PBS-no-sub.sources.j2
-    dest: /etc/apt/sources.list.d/PBS-no-sub.sources
-  tags:
-    - repositories
-
-- name: Set Ceph Sources
-  template:
-    src: ceph.sources.j2
-    dest: /etc/apt/sources.list.d/ceph.sources
+    src: pbs-no-sub.sources.j2
+    dest: /etc/apt/sources.list.d/pbs-no-sub.sources
   tags:
     - repositories
 

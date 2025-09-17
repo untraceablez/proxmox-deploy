@@ -5,4 +5,11 @@
   roles:
     - repositories
     - ssh
+
+- name: Networking configuration for PVE hosts.
+  hosts: pve
+  become: yes
+  roles:
     - networking
+
+
