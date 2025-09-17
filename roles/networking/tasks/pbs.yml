@@ -1,0 +1,18 @@
+---
+- name: Copy network configuration template
+  template:
+    src: pbs-devices.j2
+    dest: /etc/network/interfaces
+  tags:
+    - networking
+    - pbs
+
+- name: Reload networking service
+  service:
+    name: networking
+    state: restarted
+  notify:
+    - Restart network interfaces
+  tags:
+    - networking
+    - pbs

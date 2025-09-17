@@ -1,26 +1,9 @@
+# main.yml
 ---
-- name: Copy network configuration template based on sdn value
-  template:
-    src: >-
-      {%- if net_type == 'linux-bridges' -%}
-        roles/networking/templates/linux-bridges.j2
-      {%- elif net_type == 'linux-bonds' -%}
-        roles/networking/templates/linux-bonds.j2
-      {%- elif net_type == 'ovs-bonds' -%}
-        roles/networking/templates/ovs-bonds.j2
-      {%- elif net_type == 'ovs-bridges' -%}
-        roles/networking/templates/ovs-bridges.j2
-      {%- endif -%}
-    dest: /etc/network/interfaces
-  when: sdn is defined and sdn in ['linux-bridges', 'ovs-bonds']
-  tags:
-    - networking
+- name: Run tasks based on host group membership
+  include_tasks: pve.yml
+  when: "'pve' in group_names"
 
-- name: Reload networking service
-  service:
-    name: networking
-    state: restarted
-  notify:
-    - Restart network interfaces
-  tags:
-    - networking
+- name: Run tasks for PBS group
+  include_tasks: pbs.yml
+  when: "'pbs' in group_names"

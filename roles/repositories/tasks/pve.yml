@@ -7,6 +7,7 @@
     dest: /etc/apt/sources.list.d/pve-enterprise.sources
   tags:
     - repositories
+    - pve
 
 - name: Set Proxmox Sources
   when: enterprise is defined and enterprise == false
@@ -15,6 +16,7 @@
     dest: /etc/apt/sources.list.d/pve-no-sub.sources
   tags:
     - repositories
+    - pve
 
 - name: Set Ceph Sources
   template:
@@ -22,6 +24,7 @@
     dest: /etc/apt/sources.list.d/ceph.sources
   tags:
     - repositories
+    - pve
 
 - name: Set Debian Sources
   template:
@@ -29,6 +32,7 @@
     dest: /etc/apt/sources.list.d/debian.sources
   tags:
     - repositories
+    - pve
 
 - name: Update APT Cache
   apt:
@@ -36,3 +40,4 @@
     cache_valid_time: 3600  # Cache for 1 hour
   tags:
     - repositories
+    - pve

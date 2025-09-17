@@ -3,7 +3,13 @@
 - name: Run tasks based on host group membership
   include_tasks: pve.yml
   when: "'pve' in group_names"
+  tags:
+    - repositories
+    - pve
 
 - name: Run tasks for PBS group
   include_tasks: pbs.yml
   when: "'pbs' in group_names"
+  tags:
+    - repositories
+    - pbs
