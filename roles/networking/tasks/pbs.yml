@@ -1,7 +1,10 @@
 ---
+- name: gather facts
+  ansible.builtin.gather_facts:
+
 - name: Copy network configuration template
   template:
-    src: pbs-devices.j2
+    src: roles/networking/templates/pbs-devices.j2
     dest: /etc/network/interfaces
   tags:
     - networking
