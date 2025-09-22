@@ -1,7 +1,7 @@
 # roles/pmx-nodes/tasks/repos.yml
 
 - name: Set PBS Enterprise Sources
-  when: enterprise == true
+  when: enterprise is true
   ansible.builtin.template:
     src: pbs-enterprise.sources.j2
     dest: /etc/apt/sources.list.d/pbs-enterprise.sources
@@ -10,7 +10,7 @@
     - pbs
 
 - name: Set Proxmox Sources
-  when: enterprise == false
+  when: enterprise is false
   ansible.builtin.template:
     src: pbs-no-sub.sources.j2
     dest: /etc/apt/sources.list.d/pbs-no-sub.sources
@@ -29,9 +29,8 @@
 - name: Update APT Cache
   become: true
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600  # Cache for 1 hour
   tags:
     - repositories
     - pbs
-

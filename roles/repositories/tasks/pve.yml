@@ -1,7 +1,7 @@
 # roles/pmx-nodes/tasks/repos.yml
 
 - name: Set PVE Enterprise Sources
-  when: enterprise == true
+  when: enterprise is true
   ansible.builtin.template:
     src: pve-enterprise.sources.j2
     
@@ -11,7 +11,7 @@
     - pve
 
 - name: Set Proxmox Sources
-  when: enterprise == false
+  when: enterprise is false
   ansible.builtin.template:
     src: pve-no-sub.sources.j2
     
@@ -31,7 +31,6 @@
 - name: Set Debian Sources
   ansible.builtin.template:
     src: debian.sources.j2
-    
     dest: /etc/apt/sources.list.d/debian.sources
   tags:
     - repositories
@@ -40,7 +39,7 @@
 - name: Update APT Cache
   become: true
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600  # Cache for 1 hour
   tags:
     - repositories
