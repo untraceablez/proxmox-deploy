@@ -1,2 +1,13 @@
 ---
-# handlers file for networking
+# roles/pmx-nodes/handlers/main.yml
+
+- name: Restart Services
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  loop:
+    - openvswitch-switch
+
+- name: Restart network interfaces
+  command: systemctl restart networking.service

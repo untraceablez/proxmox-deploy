@@ -1,0 +1,14 @@
+---
+- name: Base configuration for all hosts.
+  hosts: all
+  become: true
+  roles:
+    - networking
+    - repositories
+    - ssh
+
+- name: Networking configuration for PVE hosts.
+  hosts: pve
+  become: true
+  roles:
+    - cluster

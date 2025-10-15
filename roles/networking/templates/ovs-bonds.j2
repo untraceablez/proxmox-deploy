@@ -1,0 +1,16 @@
+auto lo
+iface lo inet loopback
+
+iface {{ vlan_01_interface }} inet manual
+iface {{ vlan_02_interface }} inet manual
+iface {{ vlan_03_interface }} inet manual
+iface {{ vlan_04_interface }} inet manual
+
+{% for bridge in bridges %}
+auto {{ bridge.name }}
+iface {{ bridge.name }} inet static
+    address  {{ bridge.ip }}/{{ bridge.mask }}
+    gateway  {{ bridge.gateway }}
+    ovs_type Open_vSwitch
+    ovs_bridge {{ bridge.interface }}
+{% endfor %}

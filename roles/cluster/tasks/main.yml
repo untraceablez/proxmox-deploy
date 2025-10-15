@@ -1,2 +1,101 @@
 ---
-# tasks file for cluster
+- name: Ensure API user exists
+  community.proxmox.proxmox_user_info:
+    api_host: "{{ pve_cluster_leader_node }}"
+    api_user: "{{ api_user }}"
+    api_password: "{{ api_password }}"
+  run_once: true
+  tags:
+    - pve
+    - cluster
+
+- name: Ensure API user has the necessary permissions
+  community.proxmox.proxmox_user_info:
+    api_host: "{{ pve_cluster_leader_node }}"
+    api_user: "{{ api_user }}"
+    api_password: "{{ api_password }}"
+    username: "{{ api_user }}"
+    roleid: "PVEAdmin"
+    state: present
+  run_once: true
+  tags:
+    - pve
+    - cluster
+
+- name: Debug api_host for leader node
+  ansible.builtin.debug:
+    msg: "Leader Node API Host: {{ pve_cluster_leader_node }}"
+  run_once: true
+  tags:
+    - pve
+    - cluster
+
+- name: Debug api_user and api_password
+  ansible.builtin.debug:
+    msg: "API User: {{ api_user }}, API Password: {{ api_password }}"
+  run_once: true
+  tags:
+    - pve
+    - cluster
+
+
+- name: Check for existing Proxmox cluster
+  community.proxmox.proxmox_cluster:
+    api_host: "{{ pve_cluster_leader_node }}"
+    api_user: "{{ api_user }}"
+    api_password: "{{ api_password }}"
+    node: "{{ pve_cluster_leader_node }}"
+    hostname: "{{ hostname }}"
+  ignore_errors: true
+  register: pve_cluster_status
+  run_once: true
+  tags:
+    - pve
+    - cluster
+
+
+- name: Skip if Proxmox cluster already exists
+  ansible.builtin.meta: end_play
+  when: pve_cluster_status is succeeded
+  tags:
+    - pve
+    - cluster
+
+
+- name: Create Proxmox cluster on the leader node
+  community.proxmox.proxmox_cluster:
+    api_host: "{{ pve_cluster_leader_node }}"
+    api_user: "{{ api_user }}"
+    api_password: "{{ api_password }}"
+    hostname: "{{ hostname }}"
+    cluster_name: "{{ pve_cluster_name | default('pve-cluster') }}"
+    node: "{{ node_name }}"
+    state: present
+  tags:
+    - pve
+    - cluster
+
+
+- name: Get cluster join information from the leader node
+  community.proxmox.proxmox_cluster_join_info:
+    api_host: "{{ pve_cluster_leader_node }}"
+    api_user: "{{ api_user }}"
+    api_password: "{{ api_password }}"
+  register: pve_cluster_join_info
+  delegate_to: "{{ pve_cluster_leader_node }}"
+  run_once: true
+  tags:
+    - pve
+    - cluster
+
+
+- name: Add follower nodes to the cluster
+  community.proxmox.proxmox_cluster:
+    api_host: "{{ pve_cluster_leader_node }}"
+    fingerprint: "{{ pve_cluster_join_info.fingerprint }}"
+    node: "{{ inventory_hostname }}"
+    state: present
+  when: inventory_hostname != pve_cluster_leader_node
+  tags:
+    - pve
+    - cluster

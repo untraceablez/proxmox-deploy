@@ -1,0 +1,110 @@
+# http://docs.ansible.com/ansible/latest/intro_configuration.html
+
+[defaults]
+inventory               = inventory/hosts.yml
+library                 = modules
+roles_path              = roles
+local_tmp               = tmp
+log_path                = ~/.ansible.log
+remote_tmp              = ~/.ansible-tmp/
+private_key_file        = ~/.ssh/your-ssh-key
+vault_password_file     = ~/.ansible/.vaultpass
+
+forks                   = 10
+poll_interval           = 15
+
+# Default user for playbooks if user unspecified
+remote_user             = root
+ask_pass                = False
+host_key_checking       = True
+interpreter_python      = auto
+# 'smart' = "Use SSH if OS supports ControlPersist, use paramiko if not"
+#transport               = smart
+remote_port             = 22
+# smart: Gather facts from clients once per playbook run
+# implicit: Gather facts for each play (same client multiple times)
+# explicit: Do not gather facts unless specified in a play
+gathering               = smart
+# Cache facts with redis for an hour
+# fact_caching            = redis
+# fact_caching_timeout    = 36000
+# fact_caching_connection = localhost:6379:0
+# Default module to use if not specified on CLI with '-m <module>'
+module_name             = command
+executable              = /bin/sh
+# Text for filling {{ansible_managed}} macros in templates
+ansible_managed         = Ansible Managed
+# True: Include a tasks arguments in the task header during an ansible play
+display_args_to_stdout  = True
+# True: Fail a run if an undefined variable is referenced
+error_on_undefined_vars = True
+# 1: Do not process text with cowsay, 0: Use cowsay
+nocows                  = 1
+# 1: Do not colorize output, 0: Colorize output
+nocolor                 = 0
+# True: Create a retry file when an ansible play fails
+retry_files_enabled     = False
+# Where to save retries
+retry_files_save_path   = retries
+# True: Don't log runs on client systems, only master/controller node
+no_target_syslog        = True
+# True: Do not log task data
+no_log                  = False
+
+# Reduce number of SSH operations required.
+# Requires '!requiretty' for sudo to work properly.
+pipelining              = True
+
+# Set plugin path directories here, separate with colons
+# action_plugins          = /usr/share/ansible/plugins/action
+# cache_plugins           = /usr/share/ansible/plugins/cache
+# callback_plugins        = /usr/share/ansible/plugins/callback
+# connection_plugins      = /usr/share/ansible/plugins/connection
+# lookup_plugins          = /usr/share/ansible/plugins/lookup
+# inventory_plugins       = /usr/share/ansible/plugins/inventory
+# vars_plugins            = /usr/share/ansible/plugins/vars
+# filter_plugins          = /usr/share/ansible/plugins/filter
+# test_plugins            = /usr/share/ansible/plugins/test
+# strategy_plugins        = /usr/share/ansible/plugins/strategy
+
+[diff]
+always                  = True
+
+[galaxy]
+role_skeleton = skel
+role_skeleton_ignore = ^.git$,^.*/.git_keep$
+
+[privilege_escalation]
+become_ask_pass         = false
+
+[ssh_connection]
+
+# The base directory for the ControlPath sockets.
+# This is the "%(directory)s" in the control_path option
+# control_path_dir        = ~/.ansible/cp
+
+# The path to use for the ControlPath sockets.
+# control_path            = %(directory)s/ansible-%%h-%%r
+
+# ssh arguments to use
+# Leaving off ControlPersist will result in poor performance, use paramiko
+# on older platforms rather than removing it, -C controls compression use
+
+[persistent_connection]
+# Configures the persistent connection timeout value in seconds.  This value is
+# how long the persistent connection will remain idle before it is destroyed.
+# If the connection doesn't receive a request before the timeout value
+# expires, the connection is shutdown.  The default value is 30 seconds.
+connect_timeout = 30
+
+# Configures the persistent connection retries.  This value configures the
+# number of attempts the ansible-connection will make when trying to connect
+# to the local domain socket.  The default value is 30.
+connect_retries = 30
+
+# Configures the amount of time in seconds to wait between connection attempts
+# to the local unix domain socket.  This value works in conjunction with the
+# connect_retries value to define how long to try to connect to the local
+# domain socket when setting up a persistent connection.  The default value is
+# 1 second.
+connect_interval = 1

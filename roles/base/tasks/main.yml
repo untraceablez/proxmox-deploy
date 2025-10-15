@@ -1,0 +1,22 @@
+---
+- name: Update APT Cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600  
+  tags:
+    - base
+
+- name: Install packages
+  apt:
+    name:
+      - git
+      - curl
+      - wget
+      - btop
+      - net-tools
+      - zsh-common
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - base

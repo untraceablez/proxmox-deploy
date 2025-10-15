@@ -1,0 +1,21 @@
+---
+- name: gather facts
+  ansible.builtin.gather_facts:
+
+- name: Copy network configuration template
+  template:
+    src: roles/networking/templates/pbs-devices.j2
+    dest: /etc/network/interfaces
+  tags:
+    - networking
+    - pbs
+
+- name: Reload networking service
+  service:
+    name: networking
+    state: restarted
+  notify:
+    - Restart network interfaces
+  tags:
+    - networking
+    - pbs

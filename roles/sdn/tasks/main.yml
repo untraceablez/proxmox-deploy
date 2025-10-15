@@ -1,2 +1,11 @@
 ---
 # tasks file for sdn
+- name: Install openvswitch-switch package
+  when: sdn is defined and sdn == true
+  apt:
+    name: openvswitch-switch
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - sdn
