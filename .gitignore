@@ -1,5 +1,5 @@
 ansible.cfg
-inventory/hosts.yml
+inventory/hosts-*
 vault.yml
 /keys
 /tmp
