@@ -10,18 +10,22 @@ bridges:
     ip: 10.0.0.192
     mask: "24"
     gateway: 10.0.0.1
+    vlan_tag: 1
   - name: vmbr1
     interface: eno2
     ip: 10.0.7.192
     mask: "24"
     gateway: 10.0.7.1
+    vlan_tag: 7
   - name: vmbr2
     interface: eno3
     ip: 10.0.8.192
     mask: "24"
     gateway: 10.0.8.1
+    vlan_tag: 8
   - name: vmbr3
     interface: eno4
     ip: 192.168.4.192
     mask: "24"
     gateway: 192.168.4.1
+    vlan_tag: 4
