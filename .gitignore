@@ -11,3 +11,7 @@ roles/ssh/files/*
 .venv
 .vscode
 .ansible
+host_vars/cave.yml
+host_vars/tower.yml
+host_vars/mine.yml
+host_vars/plant.yml

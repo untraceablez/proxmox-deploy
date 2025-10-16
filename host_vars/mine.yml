@@ -1,6 +1,11 @@
 node-name: mine.local
 cluster_leader: no
 
+vlan_01_interface: eno1
+vlan_02_interface: eno2
+vlan_03_interface: eno3
+vlan_04_interface: eno4
+
 primary-vlan-ip: 10.0.0.193
 primary-vlan-mask: /24
 primary-vlan-gateway: 10.0.0.1
