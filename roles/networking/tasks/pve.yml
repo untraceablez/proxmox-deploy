@@ -1,5 +1,5 @@
 ---
-- name: Copy network configuration template based on sdn value
+- name: Copy network configuration template based on net_type
   template:
     src: >-
       {%- if net_type == 'linux-bridges' -%}
@@ -12,7 +12,6 @@
         roles/networking/templates/ovs-bridges.j2
       {%- endif -%}
     dest: /etc/network/interfaces
-  when: sdn is defined and sdn in ['linux-bridges', 'ovs-bonds']
   tags:
     - networking
     - pve

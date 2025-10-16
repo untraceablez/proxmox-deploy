@@ -1,10 +1,18 @@
 node-name: cave.local
 cluster_leader: yes
+enterprise: false
 
+net_type: ovs-bridges
 vlan_01_interface: eno1
 vlan_02_interface: eno2
 vlan_03_interface: eno3
 vlan_04_interface: eno4
+
+bridges:
+  bridge_01: vmbr0
+  bridge_02: vmbr1
+  bridge_03: vmbr2
+  bridge_04: vmbr3
 
 primary-vlan-ip: 10.0.0.192
 primary-vlan-mask: /24
