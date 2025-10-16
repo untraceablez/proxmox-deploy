@@ -1,4 +1,4 @@
-node-name: cave.local
+node_name: cave.local
 cluster_leader: yes
 enterprise: false
 

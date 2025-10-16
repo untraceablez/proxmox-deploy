@@ -1,4 +1,4 @@
-node-name: plant.local
+node_name: plant.local
 cluster_leader: no
 enterprise: false
 net_type: ovs-bridges

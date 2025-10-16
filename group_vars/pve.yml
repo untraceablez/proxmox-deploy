@@ -3,7 +3,7 @@ enterprise: false
 ceph-enabled: no
 pve_ssh_keyname: cluster
 pve_cluster_name: dominaria
-pve_cluster_leader_node: cave
+pve_cluster_leader_node: "{{ hostvars['cave']['ansible_host'] }}"
 api_user: "proxmox_deploy_api"
 api_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256

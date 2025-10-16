@@ -1,4 +1,4 @@
-node-name: mine.local
+node_name: mine.local
 cluster_leader: no
 enterprise: false
 net_type: ovs-bridges
