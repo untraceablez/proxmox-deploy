@@ -1,4 +1,25 @@
 ---
+- name: Install openvswitch package based on net_type
+  when: net_type == "ovs-bridges"
+  apt:
+    name:
+      - openvswitch-switch
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - networking
+    - pve
+
+- name: Backup existing interfaces file
+  copy:
+    src: /etc/network/interfaces
+    dest: /etc/network/interfaces.backup
+    remote_src: yes
+  tags:
+    - networking
+    - pve
+
 - name: Copy network configuration template based on net_type
   template:
     src: >-

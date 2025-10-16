@@ -13,11 +13,7 @@ iface {{ bridge.name }} inet static
     gateway  {{ bridge.gateway }}
     {% if bridge.type == 'linux' %}
     bridge-ports {{ bridge.interface }}
-        bridge-stp off
-        bridge-fd 0
-    {% elif bridge.type == 'ovs' %}
-    ovs_type Open_vSwitch
-    ovs_bridge {{ bridge.interface }}
-    {% endif %}
+    bridge-stp off
+    bridge-fd 0
 {% endfor %}
 
