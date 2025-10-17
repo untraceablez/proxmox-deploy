@@ -1,30 +1,31 @@
 ---
-- name: Attempt to create API user (and ignore 'no such user' error)
-  community.proxmox.proxmox_user:
-    api_host: "{{ pve_cluster_leader_node }}"
-    api_user: "root@pam"
-    api_password: "{{ root_password }}"
-    userid: "{{ api_user }}@pve"
-    password: "{{ api_password }}"
-    enable: true
-    state: present
-  run_once: true
-  delegate_to: localhost
-  ignore_errors: true  # <-- This is the fix
+- name: Check if API user already exists on the node
+  ansible.builtin.command: "pveum user list | grep '^{{ api_user }}@pve'"
+  delegate_to: "{{ inventory_hostname }}" # Runs on each host in the play
+  register: user_check
+  changed_when: false
+  failed_when: false
+  tags:
+    - pve
+    - cluster
+
+- name: Create API user if it does not exist
+  ansible.builtin.command: "pveum user add {{ api_user }}@pve --password '{{ api_password }}'"
+  delegate_to: "{{ inventory_hostname }}" # Runs on each host in the play
+  when: user_check.rc != 0
   tags:
     - pve
     - cluster
 
 - name: Ensure API user has the necessary permissions
   community.proxmox.proxmox_access_acl:
-    api_host: "{{ pve_cluster_leader_node }}"
+    api_host: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
     api_user: "root@pam"
-    api_password: "{{ root_password }}" # Make sure this is defined in your vault
+    api_password: "{{ root_password }}"
     path: "/"
-    role: "Administrator"
-    propagate: 1
-    users:
-      - "{{ api_user }}@pve"
+    roleid: "Administrator"
+    ugid: "{{ api_user }}@pve"
+    type: user  # <-- This is the fix
     state: present
   delegate_to: localhost
   tags:
@@ -32,7 +33,7 @@
     - cluster
 
 - name: Create Proxmox cluster on the leader node
-  when: inventory_hostname == pve_cluster_leader_node
+  when: inventory_hostname == 'cave'
   community.proxmox.proxmox_cluster:
     api_host: "{{ pve_cluster_leader_node }}"
     api_user: "{{ api_user }}@pve"
@@ -40,6 +41,7 @@
     cluster_name: "{{ pve_cluster_name | default('pve-cluster') }}"
     link0: "{{ bridges[0].ip }}"
     state: present
+  run_once: true
   delegate_to: localhost
   tags:
     - pve
@@ -52,22 +54,19 @@
     api_password: "{{ api_password }}"
   register: pve_cluster_join_info
   run_once: true
-  delegate_to: "{{ pve_cluster_leader_node }}"
+  delegate_to: localhost
   tags:
     - pve
     - cluster
 
 - name: Add follower nodes to the cluster
-  when: inventory_hostname != pve_cluster_leader_node
+  when: inventory_hostname != 'cave'
   community.proxmox.proxmox_cluster:
     api_host: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
     api_user: "root@pam"
-    api_password: "{{ root_password }}" # Use root to join the cluster
+    api_password: "{{ root_password }}"
     state: present
-    join_info: "{{ pve_cluster_join_info.cluster_join }}"
-    master_ip: "{{ ansible.builtin_facts.ipv4_address }}"
-    fingerprint: "{{ cluster_fingerprint }}"
-    cluster_name: "{{ pve_cluster_name | default('pve-cluster') }}"
+    join_info: "{{ pve_cluster_join_info.join_config }}"
   delegate_to: localhost
   tags:
     - pve
