@@ -7,8 +7,8 @@
     - repositories
     - ssh
 
-- name: Cluster configuration for PVE hosts.
-  hosts: pve
-  become: false
-  roles:
-   - cluster
+# - name: Cluster configuration for PVE hosts.
+#  hosts: pve
+#  become: false
+#  roles:
+#   - cluster
